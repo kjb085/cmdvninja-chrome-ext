@@ -59,8 +59,6 @@
 		// console.log('Hot keys')
 
 		$(document).on('click', function(event){ // Change this to 
-			event.preventDefault();
-
 			var snippet = window.selection
 			console.log(snippet)
 		// 	// var userId = localStorage['cmdv_token']
