@@ -23,34 +23,31 @@ $(document).ready(function(){
     event.preventDefault();
 
     $target = $(event.target)
-    var email = $target.find('input[name="email"]').val()
-    var password = $target.find('input[name="password"]').val()
+    localStorage['cmdv_token'] = $target.find('input[name="token"]').val()
 
     $.ajax({
-      type: 'POST',
-      url: 'http://localhost:3000/login',
-      data: { email: email, password: password },
+      type: 'GET',
+      url: 'http://localhost:3000/api/users/' + localStorage['cmdv_token'],
       success: function(response){ 
-        localStorage['cmdv_token'] = response['_id']
         localStorage['cmdv_username'] = response['username']
 
-        console.log(localStorage['cmdv_token'])
-        console.log(localStorage['cmdv_username'])
-
+        $target.find('input[name="token"]').val('')
         $('#welcome').append("Welcome " + localStorage['cmdv_username'])
         $('#logged_out').toggle(false)
+        $('#error').hide()
         $('#logged_in').toggle(true)
 
       },
-      failure: function(){ // Get Gary to change the response of this to a 404 error, maybe
-        alert("Incorrect email address or password")
+      failure: function(){ // Get Gary to change the response of this to an error
+        console.log("Incorrect email address or password")
+        localStorage.removeItem('cmdv_token')
+        $('#error').append('<h3>Token failed. Please try again.</h3>')
       }
     })
 
   })
 
   $('#logout').on('click', function(event){
-    // event.preventDefault();
     localStorage.removeItem('cmdv_token')
     localStorage.removeItem('cmdv_username')
     $('#logged_out').toggle(true)
