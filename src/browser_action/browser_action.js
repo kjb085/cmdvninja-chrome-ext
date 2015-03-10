@@ -1,21 +1,20 @@
 // I think I need to have a js script that is running 
+var snippet = ""
 
 $(document).ready(function(){
+  
 
-  chrome.runtime.sendMessage({clipboard: true}, function(response){
+
+
+  chrome.runtime.sendMessage('getSelection', function(response){
       $('#content').append(response)
-      var content = response
-  })
-
-  // var userId = "54fd06dc365422f72471319a" // Need to include this from another js file where it is 
+      snippet = response
+    }
+  )
 
   var userId = localStorage['cmdv_token']
-  console.log(userId)
-
 
   // API call to populate use groups
-
-
   $.ajax({
     type: "GET",
     url: "http://localhost:3000/api/users/" + userId + "/groups", // Need this route to return an array of all a user's groups
@@ -41,13 +40,16 @@ $(document).ready(function(){
     // NEED A VAR THAT CAN ACCESS THE TOKEN THAT WE STORE SOMEWHERE
     var title = document.getElementById('title').value
     var groupId = document.getElementById('group').value
-    var groupId = "54fd06dc365422f72471319d"
+    // var groupId = "54fd06dc365422f72471319d"
     var tags = document.getElementById('tags').value.split(" ")
-    
+
+    console.log(groupId)
+
+    // Need a way to dynamically send tags is a user enters anything, maybe an if statement in data if you can do that?
     $.ajax({
       type: "POST",
       url: "http://localhost:3000/api/groups/" + groupId + "/snippets",
-      data: { unique_handle: title, group: groupId, tags: JSON.stringify(tags), user: userId, content: content.innerHTML }, // Need to parse the tags array on the server side
+      data: { unique_handle: title, group: groupId, tags: JSON.stringify(tags), user: userId, content: snippet }, // Need to parse the tags array on the server side
       success: function(data){
         alert("Snippet successfully posted!")
         // console.log("Snippet successfully posted")
@@ -59,7 +61,6 @@ $(document).ready(function(){
     })
 
     $("#title").val("");
-    // $("#group").val() = "";
     $("#tags").val("");
 
   });
