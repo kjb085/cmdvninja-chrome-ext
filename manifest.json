@@ -1,0 +1,42 @@
+{
+  "name": "CmdV Ninja",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "A chrome extension to interface with the CmdV Ninja website",
+  "homepage_url": "https://github.com/kjb085/cmdvninha-chrome-ext",
+  "icons": {
+    "16": "icons/ninja-small.png",
+    "48": "icons/ninja-small.png",
+    "128": "icons/icon128.png"
+  },
+  "default_locale": "en",
+  "background": {
+    "page": "src/bg/background.html",
+    "persistent": true
+  },
+  "content_security_policy": "script-src 'self' http://localhost:3000; object-src 'self' http://localhost:3000",
+  "options_page": "src/options_custom/index.html",
+  "browser_action": {
+    "default_icon": "icons/ninja-small.png",
+    "default_title": "browser action demo",
+    "default_popup": "src/browser_action/browser_action.html"
+  },
+  "permissions":
+  [
+    "tabs",
+    "background",
+    "storage",
+    "contentSettings", // Not sure if we need this
+    "http://localhost:3000/*",
+    "clipboardRead",
+    "clipboardWrite"
+  ],
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+K"
+      },
+      "description": "Trigger the popup"
+    }
+  }
+}
