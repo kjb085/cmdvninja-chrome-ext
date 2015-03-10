@@ -3,14 +3,19 @@ var snippet = ""
 
 $(document).ready(function(){
   
-
-
-
-  chrome.runtime.sendMessage('getSelection', function(response){
+  if(!(localStorage['cmdv_token'])){
+    $('#authenticated').hide()
+    var id = chrome.runtime.id
+    $('#login').attr('href', 'chrome-extension://' + id + '/src/options_custom/settings.html')
+  } // Maybe change to on click jquery event to open a new tab in the options page
+  else{
+    $('#error').hide()
+    chrome.runtime.sendMessage('getSelection', function(response){
       $('#content').append(response)
       snippet = response
-    }
-  )
+    })
+  }
+
 
   var userId = localStorage['cmdv_token']
 
@@ -25,8 +30,9 @@ $(document).ready(function(){
         $('#group').append(dropDownPartial(name, groupId))
       })
     },
-    failure: function(){
+    failure: function(){ 
       console.log("User's groups failed to load")
+
     }
   })
 
