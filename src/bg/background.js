@@ -1,6 +1,7 @@
 
 var selection = ''
 
+// Refresh current selection when user edits the range
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 	if(message.selection != undefined){
 		console.log(message.selection)
@@ -9,6 +10,8 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 	}
 })
 
+
+// Browser action snippet preview event listener
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 	if(request == 'getSelection'){
 		console.log("Received Message");
@@ -17,6 +20,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 	}
 });
 
+
+// User id => hot key posting event listener 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 	if (request.method == 'getToken' && !!(localStorage['cmdv_token'])){
 		sendResponse({token: localStorage['cmdv_token']})
@@ -27,6 +32,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 })
 
 
+// Notification event listeners
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 	if (request.method == 'successNotif'){
 		chrome.notifications.create('cmdv', {type: 'basic', title: "Success!", message: "Snippet successfully posted to CmdV Ninja", iconUrl: '../../icons/ninja-small.png', priority: 0}, function(){})
@@ -35,6 +41,12 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 	if (request.method == 'failureNotif'){
-		chrome.notifications.create('', {type: 'basic', title: "Failure", message: "Snippet failed to post to CmdV Ninja\nPlease check authentication and ", iconUrl: '../../icons/ninja-small.png', priority: 0}, function(){})
+		chrome.notifications.create('', {type: 'basic', title: "Failure", message: "Snippet failed to post to CmdV Ninja\nPlease check your internet connection and verify authentication.", iconUrl: '../../icons/ninja-small.png', priority: 0}, function(){})
+	}
+})
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
+	if (request.method == 'unauthNotif'){
+		chrome.notifications.create('', {type: 'basic', title: "Unauthorized Access", message: "Snippet failed to post to CmdV Ninja\nPlease log in via the settings page.", iconUrl: '../../icons/ninja-small.png', priority: 0}, function(){})
 	}
 })
