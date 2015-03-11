@@ -49,25 +49,26 @@ $(document).ready(function(){
     // var groupId = "54fd06dc365422f72471319d"
     var tags = document.getElementById('tags').value.split(" ")
 
-    console.log(groupId)
-
     // Need a way to dynamically send tags is a user enters anything, maybe an if statement in data if you can do that?
     $.ajax({
       type: "POST",
       url: "http://localhost:3000/api/groups/" + groupId + "/snippets",
       data: { unique_handle: title, group: groupId, tags: JSON.stringify(tags), user: userId, content: snippet }, // Need to parse the tags array on the server side
       success: function(data){
-        alert("Snippet successfully posted!")
-        // console.log("Snippet successfully posted")
+        console.log("Snippet successfully posted")
+        chrome.notifications.create('cmdv', {type: 'basic', title: "Success!", message: "Snippet successfully posted to CmdV Ninja", iconUrl: '../../icons/ninja-small.png', priority: 0}, function(){})
+        window.close();
       },
       faiure: function(){
         console.log("Item failed to post")
+        chrome.notifications.create('', {type: 'basic', title: "Failure", message: "Snippet failed to post to CmdV Ninja\nPlease check authentication and ", iconUrl: '../../icons/ninja-small.png', priority: 0}, function(){})
         // Append an error message to the bottom of the popup
       }
     })
 
-    $("#title").val("");
-    $("#tags").val("");
+
+    // $("#title").val("");
+    // $("#tags").val("");
 
   });
 
