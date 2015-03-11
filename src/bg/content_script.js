@@ -52,33 +52,67 @@
 		selection = window.getSelection().toString();
 		console.log(selection);
 		chrome.runtime.sendMessage({selection: selection})
+
 	});
 
 
-	// if( ( key[17] === true ) && (key[67] === true) ) && (key[86] === true ) ){
-		// console.log('Hot keys')
+	// document.addEventListener('keydown', function(){
 
-		$(document).on('click', function(event){ // Change this to 
-			var snippet = window.selection
-			console.log(snippet)
-		// 	// var userId = localStorage['cmdv_token']
-		// 	// console.log(userId)
+	// 	console.log('keydown')
 
-			var userId = "54fd06dc365422f72471319a";
+	// 	chrome.runtime.sendMessage('check', function(response){
+	// 		if(response == 1){
+	// 			console.log('hot keys')
+	// 			var userId = '54ff8a956c5dded1131aa173'
 
-			$.ajax({
-				type: 'POST',
-				url: 'http://localhost:3000/api/users/' + userId + '/snippets',
-				data: { content: snippet, user: userId },
-				success: function(response){
-					alert('Successfully posted snippet!');
-				},
-				failure: function(){
-					console.log('Snippet failed to post');
-				}
-			});
+	// 			$.ajax({
+	// 				type: 'POST',
+	// 				url: 'http://localhost:3000/api/users/' + userId + '/snippets',
+	// 				data: { content: snippet, user: userId },
+	// 				success: function(response){
+	// 					alert('Successfully posted snippet!');
+	// 				},
+	// 				failure: function(){
+	// 					console.log('Snippet failed to post');
+	// 				}
+	// 			});
 
-		});
+	// 		}
+	// 	})
 
-	// }
+	// })
+
+	// if( (key[91] === true) && (key[16] === true) ) && (key[76] === true ) ){
+
+	document.addEventListener('keydown', function(event1) {
+
+		var keys = []
+
+		 onkeydown = onkeyup = function(event2) {
+    	keys[event2.keyCode] = event2.type == 'keydown';
+
+
+    	if ( keys[91] && keys[69] && keys[16] === false ) {
+		      
+		    	event2.preventDefault();
+		      
+		    	var userId = '54ff8a956c5dded1131aa173'
+		    	var snippet = window.selection
+
+		      $.ajax({
+						type: 'POST',
+						url: 'http://localhost:3000/api/users/' + userId + '/snippets',
+						data: { content: snippet, user: userId },
+						success: function(response){
+							alert('Successfully posted snippet!');
+						},
+						failure: function(){
+							console.log('Snippet failed to post');
+						}
+					});
+    	};
+  	};
+	});
+
+
 
