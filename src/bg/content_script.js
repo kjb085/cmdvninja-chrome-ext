@@ -115,7 +115,8 @@
 						url: 'http://localhost:3000/api/users/' + userId + '/snippets',
 						data: { content: snippet, user: userId },
 						success: function(response){
-							alert('Successfully posted snippet!');
+							console.log('Successfully posted snippet!');
+							chrome.notifications.create('cmdv', {type: 'basic', title: "Success!", message: "Snippet successfully posted to CmdV Ninja", iconUrl: '../../icons/ninja-small.png', priority: 0}, function(){})
 						},
 						failure: function(){
 							console.log('Snippet failed to post');
