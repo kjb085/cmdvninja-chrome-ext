@@ -102,7 +102,7 @@
 		 onkeydown = onkeyup = function(event2) {
     	keys[event2.keyCode] = event2.type == 'keydown';
 
-    	console.log(keys)
+    	console.log(keys) // Leave for later testing later refactors to clean up below if statement
 
     	if ( (keys[91] === true || keys[91] === false) && (keys[69] === true || keys[69] === false) && (keys[16] === true || keys[16] === false) ) {
 		      
