@@ -17,3 +17,12 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 		sendResponse(selection);
 	}
 });
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
+		if (request.method = 'getToken' && !!(localStorage['cmdv_token'])){
+			sendResponse({token: localStorage['cmdv_token']})
+		}
+		else{
+			sendResponse({error: true})
+		}
+})
