@@ -7,27 +7,33 @@
 
 <div id="mainPopup">
 
-	<h1>CmdV Ninja</h1>
+	<div id="error">
+		<h3>User not authenticated</h3>
+		<a id='login' class='btn' href="">Go to Log In</a>
+	</div>
 
-	<h3>Snippet Preview</h3>
-	<p id="content"></p>
+	<div id="authenticated">
+		<h1>CmdV Ninja</h1>
 
-	<form id="help-form">
-		Title:<br>
-		<input type="text" name="unique_handle" id="title">
-		<br>
-		Group:<br>
-		<select type="text" name="group" id="group">
-		</select>
-		<br>
-		Tags (optional):<br>
-		<input type="text" name="tags" id="tags">
-		<br>
-		<br>
-		<input type="submit" id="submit_snip" class="button" value="Submit Snippet">
-	</form>
+		<h3>Snippet Preview</h3>
+		<p id="content"></p>
+
+		<form id="help-form">
+			Title:<br>
+			<input type="text" name="unique_handle" id="title">
+			<br>
+			Group:<br>
+			<select type="text" name="group" id="group">
+			</select>
+			<br>
+			Tags (optional):<br>
+			<input type="text" name="tags" id="tags">
+			<br>
+			<br>
+			<input type="submit" id="submit_snip" class="button" value="Submit Snippet">
+		</form>
+	</div>
 </div>
 
 <script src="jquery.min.js"></script>
-<!-- <script src="underscore.min.js"></script> -->
 <script src="browser_action.js"></script>

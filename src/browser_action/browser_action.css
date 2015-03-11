@@ -8,3 +8,6 @@
     font-size: 2em;
   }
 
+#error:h3 {
+	color: red;
+}

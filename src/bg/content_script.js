@@ -64,7 +64,7 @@
 		// 	// var userId = localStorage['cmdv_token']
 		// 	// console.log(userId)
 
-			var userId = "54fd06dc365422f72471319a";
+			var userId = "54fd06dc365422f72471319a" // Need a way to access localStorage
 
 			$.ajax({
 				type: 'POST',
