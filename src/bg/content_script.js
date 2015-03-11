@@ -110,6 +110,11 @@
 
 		    	var snippet = window.selection
 
+		    	if (!(userId)){
+		    		chrome.runtime.sendMessage({method: 'unauthNotif'})
+		    		throw new Error("Unauthorized access")
+		    	}
+
 		      $.ajax({
 						type: 'POST',
 						url: 'http://localhost:3000/api/users/' + userId + '/snippets',
