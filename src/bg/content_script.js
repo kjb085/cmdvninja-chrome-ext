@@ -83,6 +83,18 @@
 
 	// if( (key[91] === true) && (key[16] === true) ) && (key[76] === true ) ){
 
+	var userId = ""
+
+	chrome.runtime.sendMessage({method: 'getToken'},function(response){
+		if (response.token){
+			console.log(response.token)
+			userId = response.token
+		}
+		else if (response.error){
+			console.log('error')
+		}
+	})
+
 	document.addEventListener('keydown', function(event1) {
 
 		var keys = []
@@ -90,12 +102,12 @@
 		 onkeydown = onkeyup = function(event2) {
     	keys[event2.keyCode] = event2.type == 'keydown';
 
+    	console.log(keys)
 
-    	if ( keys[91] && keys[69] && keys[16] === false ) {
+    	if ( (keys[91] === true || keys[91] === false) && (keys[69] === true || keys[69] === false) && (keys[16] === true || keys[16] === false) ) {
 		      
 		    	event2.preventDefault();
-		      
-		    	var userId = '54ff8a956c5dded1131aa173'
+
 		    	var snippet = window.selection
 
 		      $.ajax({
