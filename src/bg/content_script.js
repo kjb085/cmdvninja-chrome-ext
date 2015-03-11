@@ -116,10 +116,11 @@
 						data: { content: snippet, user: userId },
 						success: function(response){
 							console.log('Successfully posted snippet!');
-							chrome.notifications.create('cmdv', {type: 'basic', title: "Success!", message: "Snippet successfully posted to CmdV Ninja", iconUrl: '../../icons/ninja-small.png', priority: 0}, function(){})
+							chrome.runtime.sendMessage({method: 'successNotif'})
 						},
 						failure: function(){
 							console.log('Snippet failed to post');
+							chrome.runtime.sendMessage({method: 'failureNotif'})
 						}
 					});
     	};
