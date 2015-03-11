@@ -110,16 +110,22 @@
 
 		    	var snippet = window.selection
 
+		    	if (!(userId)){
+		    		chrome.runtime.sendMessage({method: 'unauthNotif'})
+		    		throw new Error("Unauthorized access")
+		    	}
+
 		      $.ajax({
 						type: 'POST',
 						url: 'http://localhost:3000/api/users/' + userId + '/snippets',
 						data: { content: snippet, user: userId },
 						success: function(response){
 							console.log('Successfully posted snippet!');
-							chrome.notifications.create('cmdv', {type: 'basic', title: "Success!", message: "Snippet successfully posted to CmdV Ninja", iconUrl: '../../icons/ninja-small.png', priority: 0}, function(){})
+							chrome.runtime.sendMessage({method: 'successNotif'})
 						},
 						failure: function(){
 							console.log('Snippet failed to post');
+							chrome.runtime.sendMessage({method: 'failureNotif'})
 						}
 					});
     	};
