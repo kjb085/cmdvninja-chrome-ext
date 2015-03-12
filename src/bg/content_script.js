@@ -40,7 +40,10 @@ document.addEventListener('keydown', function(event1) {
 
 			var snippet = window.selection
 
-			if (!(userId)){
+			if(snippet == ""){
+				throw new Error("No selection made")
+			}
+			else if (!(userId)){
 				chrome.runtime.sendMessage({method: 'unauthNotif'})
 				throw new Error("Unauthorized access")
 			}
@@ -58,7 +61,7 @@ document.addEventListener('keydown', function(event1) {
 						chrome.runtime.sendMessage({method: 'failureNotif'})
 					}
 				});
-	};
+		};
 	};
 });
 
