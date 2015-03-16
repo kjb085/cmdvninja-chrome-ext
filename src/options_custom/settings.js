@@ -27,16 +27,21 @@ $(document).ready(function(){
 
     $.ajax({
       type: 'GET',
-      url: 'http://localhost:3000/api/users/' + localStorage['cmdv_token'],
+      url: 'http://cmdvninja.herokuapp.com/api/users/' + localStorage['cmdv_token'],
       success: function(response){ 
-        localStorage['cmdv_username'] = response['username']
+        if (response === null){
+          localStorage.removeItem('cmdv_token')
+          chrome.notifications.create('', {type: 'basic', title: "Failure", message: "Token failed to authenticate with CmdV Ninja.\nPlease check the token and try again.", iconUrl: '../../icons/ninja-small.png', priority: 0}, function(){})
+        }
+        else{
+          localStorage['cmdv_username'] = response['username']
 
-        $target.find('input[name="token"]').val('')
-        $('#welcome').append("Welcome " + localStorage['cmdv_username'])
-        $('#logged_out').toggle(false)
-        $('#error').hide()
-        $('#logged_in').toggle(true)
-
+          $target.find('input[name="token"]').val('')
+          $('#welcome').append("Welcome " + localStorage['cmdv_username'])
+          $('#logged_out').toggle(false)
+          $('#error').hide()
+          $('#logged_in').toggle(true)
+        }
       },
       failure: function(){ // Get Gary to change the response of this to an error
         console.log("Incorrect email address or password")

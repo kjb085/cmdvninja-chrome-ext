@@ -43,11 +43,16 @@ $(document).ready(function(){
 
   $('#submit_snip').on('click', function(event) {
     event.preventDefault();
-    // NEED A VAR THAT CAN ACCESS THE TOKEN THAT WE STORE SOMEWHERE
+
     var title = document.getElementById('title').value
     var groupId = document.getElementById('group').value
-    // var groupId = "54fd06dc365422f72471319d"
     var tags = document.getElementById('tags').value.split(" ")
+
+    if(snippet == ""){
+      throw new Error("No selection made")
+      chrome.notifications.create('', {type: 'basic', title: "Failure", message: "No text selected", iconUrl: '../../icons/ninja-small.png', priority: 0}, function(){})
+      window.close()
+    }
 
     // Need a way to dynamically send tags is a user enters anything, maybe an if statement in data if you can do that?
     $.ajax({
@@ -61,7 +66,7 @@ $(document).ready(function(){
       },
       faiure: function(){
         console.log("Item failed to post")
-        chrome.notifications.create('', {type: 'basic', title: "Failure", message: "Snippet failed to post to CmdV Ninja\nPlease check authentication and ", iconUrl: '../../icons/ninja-small.png', priority: 0}, function(){})
+        chrome.notifications.create('', {type: 'basic', title: "Failure", message: "Snippet failed to post to CmdV Ninja\nPlease check your internet connection and try again.", iconUrl: '../../icons/ninja-small.png', priority: 0}, function(){})
         // Append an error message to the bottom of the popup
       }
     })
