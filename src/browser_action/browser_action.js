@@ -22,7 +22,7 @@ $(document).ready(function(){
   // API call to populate use groups
   $.ajax({
     type: "GET",
-    url: "http://localhost:3000/api/users/" + userId + "/groups", // Need this route to return an array of all a user's groups
+    url: "http://cmdvninja.herokuapp.com/api/users/" + userId + "/groups", // Need this route to return an array of all a user's groups
     success: function(groupsAry){
       groupsAry.forEach(function(group){
         var name = group['name']
@@ -43,32 +43,39 @@ $(document).ready(function(){
 
   $('#submit_snip').on('click', function(event) {
     event.preventDefault();
-    // NEED A VAR THAT CAN ACCESS THE TOKEN THAT WE STORE SOMEWHERE
+
     var title = document.getElementById('title').value
     var groupId = document.getElementById('group').value
-    // var groupId = "54fd06dc365422f72471319d"
     var tags = document.getElementById('tags').value.split(" ")
+
+    if(snippet == ""){
+      chrome.notifications.clear('cmdv_no_text', function(){})
+      chrome.notifications.create('cmdv_no_text', {type: 'basic', title: "Failure", message: "No text selected", iconUrl: '../../icons/ninja-small.png', priority: 0}, function(){})
+      throw new Error("No selection made")
+      window.close()
+    }
 
     // Need a way to dynamically send tags is a user enters anything, maybe an if statement in data if you can do that?
     $.ajax({
       type: "POST",
-      url: "http://localhost:3000/api/groups/" + groupId + "/snippets",
+      url: "http://cmdvninja.herokuapp.com/api/groups/" + groupId + "/snippets",
       data: { unique_handle: title, group: groupId, tags: JSON.stringify(tags), user: userId, content: snippet }, // Need to parse the tags array on the server side
       success: function(data){
-        console.log("Snippet successfully posted")
-        chrome.notifications.create('cmdv', {type: 'basic', title: "Success!", message: "Snippet successfully posted to CmdV Ninja", iconUrl: '../../icons/ninja-small.png', priority: 0}, function(){})
+        // This only works for every other notification if a user is on the same page
+        // The issue is not the same with the hot keys and if window.close() is commented out, the issue is resolved
+        // As such, I'm not sure how to fix this as the window closing upon successfully creating a snippet is key to UX
+        chrome.notifications.clear('cmdv_success', function(){})
+        chrome.notifications.create('cmdv_success', {type: 'basic', title: "Success!", message: "Snippet successfully posted to CmdV Ninja", iconUrl: '../../icons/ninja-small.png', priority: 0}, function(){})
         window.close();
       },
       faiure: function(){
         console.log("Item failed to post")
-        chrome.notifications.create('', {type: 'basic', title: "Failure", message: "Snippet failed to post to CmdV Ninja\nPlease check authentication and ", iconUrl: '../../icons/ninja-small.png', priority: 0}, function(){})
+        chrome.notifications.clear('cmdv_success')
+        chrome.notifications.create('cmdv_failure', {type: 'basic', title: "Failure", message: "Snippet failed to post to CmdV Ninja\nPlease check your internet connection and try again.", iconUrl: '../../icons/ninja-small.png', priority: 0}, function(){})
         // Append an error message to the bottom of the popup
       }
     })
 
-
-    // $("#title").val("");
-    // $("#tags").val("");
 
   });
 
