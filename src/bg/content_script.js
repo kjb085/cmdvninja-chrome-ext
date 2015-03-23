@@ -50,7 +50,7 @@ document.addEventListener('keydown', function(event1) {
 
 		  $.ajax({
 					type: 'POST',
-					url: 'http://localhost:3000/api/users/' + userId + '/snippets',
+					url: 'http://cmdvninja.herokuapp.com/api/users/' + userId + '/snippets',
 					data: { content: snippet, user: userId },
 					success: function(response){
 						console.log('Successfully posted snippet!');
