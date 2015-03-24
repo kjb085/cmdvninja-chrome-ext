@@ -7,9 +7,7 @@ window.selection = "";
 document.addEventListener('selectionchange', function(){
 
 	selection = window.getSelection().toString();
-	// console.log(selection);
 	chrome.runtime.sendMessage({selection: selection})
-
 });
 
 
