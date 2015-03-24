@@ -1,6 +1,6 @@
 'use strict';
 
-console.log("Content Script Refreshed!");
+// console.log("Content Script Refreshed!");
 
 window.selection = "";
 
@@ -17,7 +17,6 @@ var userId = ""
 
 chrome.runtime.sendMessage({method: 'getToken'},function(response){
 	if (response.token){
-		console.log(response.token)
 		userId = response.token
 	}
 	else if (response.error){
